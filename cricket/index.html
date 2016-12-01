@@ -1,0 +1,575 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>Hand Cricket - Online</title>
+<link href='emboss_h1.css' rel='stylesheet' type='text/css'>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta name=author content="Shreyan Nag">
+<style>
+
+input { background-color: yellow; }
+
+select { background-color: pink; }
+
+#blurb { border: 3px solid red; }
+
+.country { background-color: orange; }
+
+</style>
+
+<script type='text/javascript'>
+
+var dobeep=true;
+var have=" have Virat Kholi (c) and Steve Smith (c)";
+var changed=false;
+var homedef="Score: 0/0";
+var visitingdef="Score: 0/0";
+var thetoss = " the Toss";
+var firstbat="";
+var numteams=2;
+var jinnings=0;
+var innings=0;
+var whobats="";
+var whoisbatting=-1;
+var whofaces=-1;
+var whoelsefaces=-1;
+var whoiskeeper="";
+var whoisfacing="";
+var whoelseisfacing="";
+var whobowls=-1;
+var whoisbowling="";
+var numball=new Array(0,0,0,0);
+var numovers=new Array(0,0,0,0);
+var iscores=new Array(0,0,0,0);
+var ballinover=0;
+var overnumber=0;
+var numout=0;
+var nextbat=-1;
+var suffix="";
+var selone="", seltwo="";
+var nextblurb="";
+var prevblurb="";
+var nexteval="";
+var ways=new Array("c (wk) b y", "c x b y", "c x b y", "c x b y", "c x b y", "c x b y", "c x b y", "b y", "run out", "st (wk) b y");
+
+var ourq="", ourd="5";
+
+var vsmode=1;
+
+function beep() {
+    var snd = new Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");  
+    snd.play();
+}
+
+function dosup(x) {
+    if (x == " ") {
+     if (dobeep) {
+      x='x';
+     } else {
+      x='';
+     }
+     //alert(x + " * " + dobeep);
+    }
+    var element = document.getElementsByTagName("sup");
+    for (var i=0; i<element.length; i++) {
+        element[i].innerHTML=x;
+        if (x.length == 0) {
+         element[i].title='turn on beep';
+        } else {
+         element[i].title='turn off beep';
+        }
+    }
+    
+}
+
+function togglebeep(ais) {
+    var x='x';
+    if (dobeep) {
+      dobeep=false;
+      x='';
+    } else {
+      dobeep=true;
+    }
+    if (x.length == 0) {
+         ais.title='turn on beep';
+    } else {
+         ais.title='turn off beep';
+    }
+    dosup(x);
+}
+
+function tabzero(inc, atfront) {
+  var tabbits=inc.split("\t");
+  if (atfront) return "<i><b><font color='red'>" + tabbits[0] + "</font></b></i>";
+  return tabbits[0];
+}
+
+function sonchange(oret, ret) {
+  if (selone == "") {
+    selone=ret;
+    var bits=nextblurb.split("nominated");
+    document.getElementById('functionality').innerHTML=bits[0];
+    //document.getElementById('tblurb').innerHTML=suffix;
+    oret.value="0";
+    if (dobeep) beep();
+  } else if (seltwo == "") {
+    //alert(ret);
+    seltwo=ret;
+    oret.value="0";
+    var aselone=selone;
+    var aseltwo=seltwo;
+    selone="";
+    seltwo="";
+    ask(prevblurb, whobats, aselone, aseltwo);
+    if (dobeep) beep();
+  }
+  return ret;
+}
+
+function ourprompt(q, d) {
+  var ret=null;
+  ret = prompt(q, d);
+  return ret;
+}
+
+function analyze(ois, valis, idis) {
+  var ballvals=valis.split(".");
+  var runsvals=valis.split("+");
+  var wktsvals=valis.split("*");
+  var whatisthere=ballvals[0];
+  var slshvals=whatisthere.split("/");
+  //if (eval(slshvals.length - 1) > 0) alert(whatisthere);
+  var prerunsare=slshvals[eval(slshvals.length - 1)];
+  //if (eval(slshvals.length - 1) > 0) alert(prerunsare);
+  var runsare=prerunsare.split(" ");
+  //if (eval(slshvals.length - 1) > 0) alert(runsare[0]);
+  var runs=0;
+  runs+=eval(runsare[0]);
+  var overs=0;
+  var wickets=0;
+  var avls=valis.split("(");
+  if (avls.length > 1) {
+    var aavals=avls[1].split(" ");
+    overs=eval(aavals[0]);
+  }
+  if (slshvals.length > 1) {
+    wickets=eval(slshvals[0]);
+  }
+  wickets=eval(eval(wickets) + eval(wktsvals.length) - 1);
+  runs+=eval(runsvals.length);
+  runs--;
+  if (ballvals.length >= 7) {
+    overs++;
+  } else {
+    overs = "" + overs + "." + eval(eval(ballvals.length) - 1);
+  }
+  ois.value = "" + wickets + "/" + runs + " (" + overs + " overs)";
+}
+
+function ask(blurb, awho, zone, ztwo) {
+  var retval=blurb, curbowler=whobowls;
+  var wf=whofaces, cwf=whoisfacing;
+  var bwho = "home";
+  var xx="", tob="turn on beep";
+  if (dobeep) xx="x";
+  if (dobeep) tob="turn off beep";
+  if (awho == "home") bwho = "visiting";
+  if (zone == "" && ztwo == "") {
+      nextblurb=tabzero(document.getElementById(bwho + 'name').value, true) + " (please make " + tabzero(document.getElementById(awho + 'name').value, false) + " turn away now <a class='note' style='text-decoration:none;' title='" + tob + "' href='#' onclick=' togglebeep(this); '>&#9834;<sup id='sup1' style='color:red;'>" + xx + "</sup></a>) nominated score from 1 to 6 (5 is a dot ball)?";
+      if (blurb == "") {
+       blurb=tabzero(document.getElementById(awho + 'name').value, true) + " (please make " + tabzero(document.getElementById(bwho + 'name').value, false) + " turn away now <a class='note' style='text-decoration:none;' title='" + tob + "' href='#' onclick=' togglebeep(this); '>&#9834;<sup id='sup2' style='color:red;'>" + xx + "</sup></a>) nominated score from 1 to 6 (5 is a dot ball)?";
+      }
+      if (blurb != "") {
+       if (prevblurb == "") prevblurb=blurb;
+       var bits=blurb.split("nominated");
+       document.getElementById('functionality').innerHTML = bits[0];
+      }
+      document.getElementById('tblurb').innerHTML=suffix;
+  } else {
+  var one=zone, two=ztwo;
+  while (one != "0" && one != "1" && one != "2" && one != "3" && one != "4" && one != "5" && one != "6") {
+   ourq=retval + " " + tabzero(document.getElementById(awho + 'name').value) + " (please make " + tabzero(document.getElementById(bwho + 'name').value) + " turn away now <a class='note' style='text-decoration:none;' title='" + tob + "' href='#' onclick=' togglebeep(this); '>&#9834;<sup id='sup3' style='color:red;'>" + xx + "</sup></a>) nominated score from 1 to 6 (5 is a dot ball)?";
+   ourd="5";
+   one=ourprompt(ourq, ourd);
+   retval='';
+   if (one == null) one="";
+   if (one == "0") one = "5";
+  }
+  while (two != "0" && two != "1" && two != "2" && two != "3" && two != "4" && two != "5" && two != "6") {
+   ourq=retval + " " + tabzero(document.getElementById(bwho + 'name').value) + " (please make " + tabzero(document.getElementById(awho + 'name').value) + " turn away now <a class='note' style='text-decoration:none;' title='" + tob + "' href='#' onclick=' togglebeep(this); '>&#9834;<sup id='sup4' style='color:red;'>" + xx + "</sup></a>) nominated score from 1 to 6 (5 is a dot ball)?";
+   ourd="5";
+   two=ourprompt(ourq, ourd);
+   if (two == null) two="";
+   if (two == "0") two = "5";
+  }
+  var oktoadddot=true;
+  if (eval(one) == eval(two)) {
+    appendway(awho + 'runs' + whofaces);
+    if (document.getElementById(awho + 'runs' + whofaces).value.indexOf("run out") != -1) {
+    document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + ".!";
+    } else {
+    document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + ".*";
+    }
+    oktoadddot=false;
+    one="0";
+    document.getElementById(awho + 'status' + whofaces).value = "Out";
+    numout+=1;
+    if (eval(1 + eval(ballinover)) >= 6) {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + eval(1 + eval(numovers[eval(-1 + jinnings)])) + " overs)";
+    } else {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + numovers[eval(-1 + jinnings)] + "." + eval(1 + eval(ballinover)) + " overs)";
+    }
+    if (numout == 10) {
+      eval(awho + "def='Score: " + iscores[eval(-1 + jinnings)] + "'");
+      document.getElementById(awho + 'name').value = document.getElementById(awho + 'name').value + "\t" + iscores[eval(-1 + jinnings)];
+      analyze(document.getElementById(bwho + 'runs' + whobowls), document.getElementById(bwho + 'runs' + whobowls).value, bwho + 'runs' + whobowls);
+      wf=nextblurb;
+      nextblurb=prevblurb;
+      prevblurb=wf;
+      numout=0;
+      ballinover = 0;
+      retval = changeofinnings(nextbat);
+      return retval;
+    } else {
+      //alert(whofaces);
+      var ik=eval(whofaces);
+      //alert(ik);
+      if (eval(whoelsefaces) > eval(ik)) ik=eval(whoelsefaces);
+      //alert(ik);
+      whofaces=eval(1 + eval(ik));
+      //alert(whofaces);
+      whoisfacing=document.getElementById(awho + 'name' + whofaces).value;
+      document.getElementById(awho + 'status' + whofaces).value = "Batting (facing)";
+    }
+  } else if (eval(one) == 5) {
+    one="0";
+    if (eval(1 + eval(ballinover)) >= 6) {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + eval(1 + eval(numovers[eval(-1 + jinnings)])) + " overs)";
+    } else {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + numovers[eval(-1 + jinnings)] + "." + eval(1 + eval(ballinover)) + " overs)";
+    }
+  } else {
+    //alert(eval(one));
+    iscores[eval(-1 + jinnings)]+=eval(one);
+    //alert(awho + 'runs' + " ... " + iscores[eval(-1 + jinnings)]);
+    if (eval(1 + eval(ballinover)) >= 6) {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + eval(1 + eval(numovers[eval(-1 + jinnings)])) + " overs)";
+    } else {
+      document.getElementById(awho + 'runs').innerHTML='Score: ' + numout + "/" + iscores[eval(-1 + jinnings)] + " (" + numovers[eval(-1 + jinnings)] + "." + eval(1 + eval(ballinover)) + " overs)";
+    }
+    document.getElementById(awho + 'runs' + whofaces).value = eval(eval(one) + eval(document.getElementById(awho + 'runs' + whofaces).value));
+    if (eval(one % 2) == 1) {
+      wf=whofaces;
+      cwf=whoisfacing;
+      whofaces = whoelsefaces;
+      whoelsefaces = wf;
+      whoisfacing = whoelseisfacing;
+      whoelseisfacing = cwf;
+      document.getElementById(awho + 'status' + whofaces).value = "Batting (facing)";
+      document.getElementById(awho + 'status' + whoelsefaces).value = "Batting";
+    }
+  }
+  ballinover+=1;
+  if (ballinover == 6) {
+      if (oktoadddot) document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + ".";
+      for (var ijk=0; ijk<eval(one); ijk++) document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + "+";
+      analyze(document.getElementById(bwho + 'runs' + whobowls), document.getElementById(bwho + 'runs' + whobowls).value, bwho + 'runs' + whobowls);
+      document.getElementById(bwho + 'status' + whobowls).value='Fielding';
+      wf=whofaces;
+      cwf=whoisfacing;
+      whofaces = whoelsefaces;
+      whoelsefaces = wf;
+      whoisfacing = whoelseisfacing;
+      whoelseisfacing = cwf;
+      document.getElementById(awho + 'status' + whofaces).value = "Batting (facing)";
+      document.getElementById(awho + 'status' + whoelsefaces).value = "Batting";
+    numovers[eval(-1 + jinnings)]++;
+    while (curbowler == whobowls) {
+      pickabowler(bwho);
+      if (whobowls == curbowler) document.getElementById(bwho + 'status' + whobowls).value='Fielding';
+    }
+  } else {
+      if (oktoadddot) document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + ".";
+      for (var ijk=0; ijk<eval(one); ijk++) document.getElementById(bwho + 'runs' + whobowls).value = document.getElementById(bwho + 'runs' + whobowls).value + "+";
+      var nev=nexteval;
+      nexteval=nexteval.replace(" " + eval(eval(ballinover) + 1) + " ", " " + eval(eval(ballinover) + 2) + " ");
+      eval(nev);
+  }
+  dosup(" ");
+  if (jinnings == 4) justcheck();
+  ask("", awho, "", "");
+  }
+  return retval;
+}
+
+function eachtime() {
+//alert(vsmode); 
+  if (vsmode === 1) {
+//alert(599); 
+    vsmode=0;
+    document.getElementById('astart').innerHTML="&nbsp;<button>Toss</button>&nbsp;";
+    setTimeout(eachtime,200);
+//alert(299); 
+  } else if (vsmode === 0) {  
+//alert(699); 
+    vsmode=1;
+    document.getElementById('astart').innerHTML="&nbsp;Vs&nbsp;";
+    //alert(199); 
+    setTimeout(eachtime,200);
+  } else {
+//alert(399); 
+    suffix="<div align='center'><select onchange='sonchange(this,this.value);' id='blurb'><option value='0'>Please nominate score off this ball (5 is dot ball) below ...</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>Dot</option><option value='6'>6</option></select></div>";
+    //document.getElementById('functionality').innerHTML=prevblurb; //"<select onchange='sonchange();' id='blurb'><option value='0'>Please nominate score off this ball (5 is dot ball) below ...</option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>Dot</option><option value='6'>6</option></select>";
+    document.getElementById('tblurb').innerHTML = suffix;
+  }
+}
+
+function justcheck() {
+  var retv=false, prefix="", congrats="";
+  if (jinnings == 4) {
+    if (firstbat == "home") {
+      congrats="Congratulations " + document.getElementById('visitingname').value + " ... you've won this test.";
+      if (eval(eval(iscores[0]) + eval(iscores[2])) < eval(eval(iscores[1]) + eval(iscores[3]))) {
+       prefix=document.getElementById('homename').value + ' lost to ' + document.getElementById('visitingname').value + " by " + eval(iscores[1] + iscores[3] - iscores[0] + iscores[2]) + "runs.";
+      }
+    } else {
+      congrats="Congratulations " + document.getElementById('homename').value + " ... you've won this test.";
+      if (eval(eval(iscores[1]) + eval(iscores[3])) > eval(eval(iscores[0]) + eval(iscores[2]))) {
+       prefix=document.getElementById('homename').value + ' defeated ' + document.getElementById('visitingname').value + " by " + eval(iscores[1] + iscores[3] - iscores[0] + iscores[2]) + "runs.";
+      }
+    }
+    if (prefix != "") {
+     retv=true;
+     alert(congrats + " " + prefix);
+     location.href=document.URL;
+    }
+  }
+  return retv;
+}
+
+
+function changeofinnings(vmode) {
+  var prefix="", i, j;
+  if (jinnings == 4) {
+    if (firstbat == "home") {
+      if (eval(eval(iscores[0]) + eval(iscores[2])) == eval(eval(iscores[1]) + eval(iscores[3]))) {
+       prefix=document.getElementById('homename').value + ' tied with ' + document.getElementById('visitingname').value;
+      } else if (eval(eval(iscores[0]) + eval(iscores[2])) > eval(eval(iscores[1]) + eval(iscores[3]))) {
+       prefix=document.getElementById('homename').value + ' defeated ' + document.getElementById('visitingname').value + " by " + eval(iscores[0] + iscores[2] - iscores[1] + iscores[3]) + "runs.";
+      } else if (eval(eval(iscores[0]) + eval(iscores[2])) < eval(eval(iscores[1]) + eval(iscores[3]))) {
+       prefix=document.getElementById('homename').value + ' lost to ' + document.getElementById('visitingname').value + " by " + eval(iscores[1] + iscores[3] - iscores[0] + iscores[2]) + "runs.";
+      }
+    } else {
+      if (eval(eval(iscores[1]) + eval(iscores[3])) == eval(eval(iscores[0]) + eval(iscores[2]))) {
+       prefix=document.getElementById('homename').value + ' tied with ' + document.getElementById('visitingname').value;
+      } else if (eval(eval(iscores[1]) + eval(iscores[3])) > eval(eval(iscores[0]) + eval(iscores[2]))) {
+       prefix=document.getElementById('homename').value + ' defeated ' + document.getElementById('visitingname').value + " by " + eval(iscores[1] + iscores[3] - iscores[0] + iscores[2]) + "runs.";
+      } else if (eval(eval(iscores[1]) + eval(iscores[3])) < eval(eval(iscores[0]) + eval(iscores[2]))) {
+       prefix=document.getElementById('homename').value + ' lost to ' + document.getElementById('visitingname').value + " by " + eval(iscores[0] + iscores[2] - iscores[1] + iscores[3]) + "runs.";
+      }
+    }
+  } else {
+  if (vmode == 0) {
+    nextbat = 1;
+    if (firstbat == "") {
+      if (document.getElementById('mytbody').innerHTML.indexOf("Awaiting the Toss") != -1) {
+        document.getElementById('mytbody').innerHTML=document.getElementById('mytbody').innerHTML.replace(/Awaiting the Toss/g, "Awaiting");
+        document.getElementById('tblurb').innerHTML=prevblurb;
+        thetoss="";
+        changeofinnings(0);
+        return "";
+      }
+      firstbat="home";
+    }
+    ballinover=0;
+    overnumber=0;
+    whobats='home';
+    whoisbatting=0;
+    whofaces=1;
+    whoelsefaces=2;
+    whoisfacing=document.getElementById('homename1').value.replace(" (c)", "").replace(" (wk)", "");
+    whoelseisfacing=document.getElementById('homename2').value.replace(" (c)", "").replace(" (wk)", "");
+    document.getElementById('home0').innerHTML='Innings ' + eval(1 + innings) + ' Batting';
+    document.getElementById('visiting0').innerHTML='Innings ' + eval(1 + innings) + ' Bowling';
+    document.getElementById('homestatus1').value="Batting (facing)";
+    document.getElementById('homestatus2').value="Batting";
+    for (i=3; i<=11; i++) {
+      document.getElementById('homestatus' + i).value="Awaiting" + thetoss;
+    }
+    thetoss="";
+    document.getElementById('visitingname').readOnly = true;
+    document.getElementById('homename').readOnly = true;
+    for (i=1; i<=11; i++) {
+     document.getElementById('visitingname' + i).readOnly = true;
+     document.getElementById('homename' + i).readOnly = true;
+     document.getElementById('visitingruns' + i).value='0';
+     document.getElementById('homeruns' + i).value='0';
+     if (document.getElementById('homename' + i).value.indexOf("(wk)") != -1) {
+      whoiskeeper=document.getElementById('visitingname' + i).value.replace(" (wk)", "");
+      document.getElementById('visitingstatus' + i).value="Keeping";
+     } else {
+      document.getElementById('visitingstatus' + i).value="Fielding";
+     }
+    }
+    whoisbowling=pickabowler("visiting");
+    prefix="<i><b><font color='red'>" + document.getElementById('homename').value + '</font></b></i> is batting and ' + document.getElementById('visitingname').value + ' is bowling in Innings 1 (of 2) of Test 1.';
+    jinnings+=1;
+    if (jinnings == 4) justcheck();
+    if (eval(jinnings % 2) == 0) {
+      document.getElementById('homeruns').innerHTML=homedef;
+      document.getElementById('visitingruns').innerHTML=visitingdef;
+      innings+=1;
+    }
+    prefix=ask(prefix, "home", "", "");
+    var bits=prevblurb.split("nominated");
+    document.getElementById('functionality').innerHTML=bits[0];
+  } else if (vmode == 1) {
+    nextbat = 0;
+    if (firstbat == "") {
+      if (document.getElementById('mytbody').innerHTML.indexOf("Awaiting the Toss") != -1) {
+        document.getElementById('mytbody').innerHTML=document.getElementById('mytbody').innerHTML.replace(/Awaiting the Toss/g, "Awaiting");
+        document.getElementById('tblurb').innerHTML=prevblurb;
+        thetoss="";
+        changeofinnings(1);
+        return "";
+      }
+      firstbat="visiting";
+    }
+    ballinover=0;
+    overnumber=0;
+    whobats='visiting';
+    whoisbatting=1;
+    whofaces=1;
+    whoelsefaces=2;
+    whoisfacing=document.getElementById('visitingname1').value.replace(" (c)", "").replace(" (wk)", "");
+    whoelseisfacing=document.getElementById('visitingname2').value.replace(" (c)", "").replace(" (wk)", "");
+    document.getElementById('visiting0').innerHTML='Innings ' + eval(1 + innings) + ' Batting';
+    document.getElementById('home0').innerHTML='Innings ' + eval(1 + innings) + ' Bowling';
+    document.getElementById('visitingstatus1').value="Batting (facing)";
+    document.getElementById('visitingstatus2').value="Batting";
+    for (i=3; i<=11; i++) {
+      document.getElementById('visitingstatus' + i).value="Awaiting" + thetoss;
+    }
+    thetoss="";
+    document.getElementById('visitingname').readOnly = true;
+    document.getElementById('homename').readOnly = true;
+    for (i=1; i<=11; i++) {
+     document.getElementById('visitingname' + i).readOnly = true;
+     document.getElementById('homename' + i).readOnly = true;
+     document.getElementById('visitingruns' + i).value='0';
+     document.getElementById('homeruns' + i).value='0';
+     if (document.getElementById('visitingname' + i).value.indexOf("(wk)") != -1) {
+      whoiskeeper=document.getElementById('visitingname' + i).value.replace(" (wk)", "");
+      document.getElementById('homestatus' + i).value="Keeping";
+     } else {
+      document.getElementById('homestatus' + i).value="Fielding";
+     }
+    }
+    whoisbowling=pickabowler("home");
+    prefix=document.getElementById('homename').value + " is bowling and <i><b><font color='red'>" + document.getElementById('visitingname').value + '</font></b></i> is batting in Innings 1 (of 2) of Test 1.';
+    jinnings+=1;
+    if (eval(jinnings % 2) == 0) {
+      document.getElementById('homeruns').innerHTML=homedef;
+      document.getElementById('visitingruns').innerHTML=visitingdef;
+      innings+=1;
+    }
+    prefix=ask(prefix, "visiting", "", "");
+    var bbits=prevblurb.split("nominated");
+    document.getElementById('functionality').innerHTML=bbits[0];
+  }
+  }
+  return prefix;
+}
+
+function appendway(batbit) {
+  var wis=eval(Math.floor(Math.random() * ways.length) + 0);
+  var names=whoisbowling.split(" "), xyz="";
+  var keepers=whoiskeeper.split(" "), catchers;
+  var theway=ways[wis].replace(" y", " " + names[names.length - 1]).replace("(wk)", keepers[eval(-1 + keepers.length)]);
+  if (theway.indexOf(" x ") != -1) {
+    var catcher=eval(Math.floor(Math.random() * 10) + 1);
+    if (batbit.indexOf("visiting") != -1) {
+      xyz=document.getElementById("homename" + catcher).value.replace(" (wk)", "").replace(" (c)", "");
+      //alert(xyz);
+      catchers=xyz.split(" ");
+      theway = theway.replace(" x ", " " + catchers[eval(-1 + catchers.length)] + " ");
+    } else {
+      xyz=document.getElementById("visitingname" + catcher).value.replace(" (wk)", "").replace(" (c)", "");
+      //alert(xyz);
+      catchers=xyz.split(" ");
+      theway = theway.replace(" x ", " " + catchers[eval(-1 + catchers.length)] + " ");
+    }
+  }
+  //document.getElementById(batbit).value = document.getElementById(batbit).value + " ... " + theway;
+  document.getElementById(batbit).value = document.getElementById(batbit).value + "  " + theway;
+}
+
+function pickabowler(who) {
+  var bis=eval(Math.floor(Math.random() * 4) + 8);
+  ballinover=0;
+  //alert(bis + " " + who + 'name' + bis);
+  whobowls=eval(bis);
+  whoisbowling=document.getElementById(who + 'name' + bis).value.replace(" (c)", "").replace(" (wk)", "");
+  //alert(whoisbowling);
+  document.getElementById(who + 'status' + bis).value = "Bowling 1 of 6";
+  nexteval="document.getElementById('" + who + 'status' + bis + "').value = 'Bowling 2 of 6'";
+  return whoisbowling;
+}
+
+function start() {
+  var aprefix="", ii, jj;
+  changed=true;
+  //alert(799);
+  if (vsmode === 0) {
+    aprefix=changeofinnings(vsmode);
+    vsmode = -1;
+  } else if (vsmode === 1) {
+    aprefix=changeofinnings(vsmode);
+    vsmode = -1;
+  }
+}
+
+function askonce() {
+  if (!changed) {
+    var ais=document.getElementById('astart');
+    if (ais != null) {
+     var r = confirm("Want to" + have + " do the coin toss now?  Please note that batting side always nominates first.  Please do not allow nominations to be seen by opponents.");
+     if (r == true) {
+      ais.click();
+     }    
+    }
+  }
+}
+
+</script>
+</head>
+<body style="background: url('hand_cricket.png'); repeat;" onload="setTimeout(eachtime, 200); setTimeout(askonce, 8000);">
+<h1 align='center'>Hand Test Cricket</h1>
+<h4 align='center'>Developed by Shreyan Nag - 2016,December</h4>
+<div id='mydiv' align='center'>
+<table id='mytable'>
+<tbody id='mytbody'>
+<tr id='headrow'>
+<th id='hometeam'>
+<input class="country" type='text' onblur="changed=true; have='';" id='homename' value="India" /></th>
+<th id='functionality'><a id='astart' title='Click when ready to start with coin toss.  Please note that batting side always nominates first.  Please do not allow nominations to be seen by opponents.' href="#" onclick="start();">&nbsp;Vs&nbsp;</a></th><th id='visitingteam'><input class="country" type='text' onblur="changed=true; have='';" id='visitingname' value="Australia" /></th></tr>
+<tr id='rowstatus'><td id='home0'>Innings 1 Batting</td><td id='tblurb'></td><td id='visiting0'>Innings 1 Bowling</td></tr>
+<tr id='row1'><td id='home1'><input type='text' onblur="changed=true; have='';" id='homename1' value="
+Murali Vijay" /></td><td id='versus1'><input readonly id="homeruns1" value="0" /><select disabled id="homestatus1"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus1"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns1" value="0" /></td><td id='visiting1'><input type='text' onblur="changed=true; have='';" id='visitingname1' value="David Warner" /></td></tr>
+<tr id='row2'><td id='home2'><input type='text' onblur="changed=true; have='';" id='homename2' value="Virat Kohli (C)" /></td><td id='versus2'><input readonly id="homeruns2" value="0" /><select disabled id="homestatus2"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus2"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns2" value="0" /></td><td id='visiting2'><input type='text' onblur="changed=true; have='';" id='visitingname2' value="Ashton Agar" /></td></tr>
+<tr id='row3'><td id='home3'><input type='text' onblur="changed=true; have='';" id='homename3' value="Stuart Binny" /></td><td id='versus3'><input readonly id="homeruns3" value="0" /><select disabled id="homestatus3"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus3"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns3" value="0" /></td><td id='visiting3'><input type='text' onblur="changed=true; have='';" id='visitingname3' value="Steven Smith (c)" /></td></tr>
+<tr id='row4'><td id='home4'><input type='text' onblur="changed=true; have='';" id='homename4' value="R.Ashwin" /></td><td id='versus4'><input readonly id="homeruns4" value="0" /><select disabled id="homestatus4"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus4"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns4" value="0" /></td><td id='visiting4'><input type='text' onblur="changed=true; have='';" id='visitingname4' value="Aaron Finch" /></td></tr>
+<tr id='row5'><td id='home5'><input type='text' onblur="changed=true; have='';" id='homename5' value="Shikhar Dhawan" /></td><td id='versus5'><input readonly id="homeruns5" value="0" /><select disabled id="homestatus5"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus5"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns5" value="0" /></td><td id='visiting5'><input type='text' onblur="changed=true; have='';" id='visitingname5' value="Josh Hazlewood" /></td></tr>
+<tr id='row6'><td id='home6'><input type='text' onblur="changed=true; have='';" id='homename6' value="R.Jadeja" /></td><td id='versus6'><input readonly id="homeruns6" value="0" /><select disabled id="homestatus6"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus6"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns6" value="0" /></td><td id='visiting6'><input type='text' onblur="changed=true; have='';" id='visitingname6' value="Mitchell Marsh" /></td></tr>
+<tr id='row7'><td id='home7'><input type='text' onblur="changed=true; have='';" id='homename7' value="Wriddhiman Saha" /></td><td id='versus7'><input readonly id="homeruns7" value="0" /><select disabled id="homestatus7"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus7"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns7" value="0" /></td><td id='visiting7'><input type='text' onblur="changed=true; have='';" id='visitingname7' value="Peter Nevill" /></td></tr>
+<tr id='row8'><td id='home8'><input type='text' onblur="changed=true; have='';" id='homename8' value="Rohit Sharma" /></td><td id='versus8'><input readonly id="homeruns8" value="0" /><select disabled id="homestatus8"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus8"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns8" value="0" /></td><td id='visiting8'><input type='text' onblur="changed=true; have='';" id='visitingname8' value="Glenn Maxwell" /></td></tr>
+<tr id='row9'><td id='home9'><input type='text' onblur="changed=true; have='';" id='homename9' value="Umesh Yadav" /></td><td id='versus9'><input readonly id="homeruns9" value="0" /><select disabled id="homestatus9"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus9"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns9" value="0" /></td><td id='visiting9'><input type='text' onblur="changed=true; have='';" id='visitingname9' value="James Faulkner" /></td></tr>
+<tr id='row10'><td id='home10'><input type='text' onblur="changed=true; have='';" id='homename10' value="Mohammed Shami" /></td><td id='versus10'><input readonly id="homeruns10" value="0" /><select disabled id="homestatus10"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus10"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns10" value="0" /></td><td id='visiting10'><input type='text' onblur="changed=true; have='';" id='visitingname10' value="Nathan Coulter-Nile" /></td></tr>
+<tr id='row11'><td id='home11'><input type='text' onblur="changed=true; have='';" id='homename11' value="Ajinkya Rahane (VC)" /></td><td id='versus11'><input readonly id="homeruns11" value="0" /><select disabled id="homestatus11"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><select disabled id="visitingstatus11"><option value="Batting (facing)">Batting (facing)</option><option value="Batting">Batting</option><option value="Bowling 1 of 6">Bowling 1 of 6</option><option value="Bowling 2 of 6">Bowling 2 of 6</option><option value="Bowling 3 of 6">Bowling 3 of 6</option><option value="Bowling 4 of 6">Bowling 4 of 6</option><option value="Bowling 5 of 6">Bowling 5 of 6</option><option value="Bowling 6 of 6">Bowling 6 of 6</option><option value="Keeping">Keeping</option><option value="Fielding">Fielding</option><option value="Out">Out</option><option value="Awaiting the Toss" selected>Awaiting the Toss</option></select><input readonly id="visitingruns11" value="0" /></td><td id='visiting11'><input type='text' onblur="changed=true; have='';" id='visitingname11' value="Usman Khawaja" /></td></tr>
+<tr id='score'><td id='homeruns'>Score: 0/0</td><td></td><td id='visitingruns'>Score: 0/0</td></tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>
+
