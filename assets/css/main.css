@@ -5,7 +5,8 @@ body {
   margin: 0;
   padding: 0;
   cursor: pointer;
+  background:url('folder/image.gif') repeat-y 100% 100% fixed;
 }
 .jumbotron{
- background-color: rgba(33, 121, 208, 0.7);
+ background-color: rgba(255, 255, 255, 0.7);
 }
