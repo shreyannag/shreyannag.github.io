@@ -12,4 +12,4 @@
 
 ### Handcricket Java Edition [Click to download](https://shreyannag.github.io/Hand_Cricket.jar)
 
-## DIY basic Calculator[Click to download](https://shreyannag.github.io/cal.jar)
+### DIY basic Calculator[Click to download](https://shreyannag.github.io/cal.jar)
