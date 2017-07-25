@@ -1,4 +1,4 @@
-# **_Personal Website/Portfolio Site/Support Site_**
+# **_Personal Website/Support Site_**
 
 ## This site is repository of my ongoing works and projects I work on frequently [Github](https://github.com/shreyannag/) 
 [![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)]() [![Opensource](https://img.shields.io/badge/Opensource-Yes-blue.svg)]()
@@ -13,5 +13,11 @@
 
 ### Handcricket Java Edition [Click to download](https://shreyannag.github.io/Hand_Cricket.jar)
 
-### DIY basic Calculator[Click to download](https://shreyannag.github.io/cal.jar)
+### DIY basic Calculator [Click to download](https://shreyannag.github.io/cal.jar)
+
+<p align="center">
+   <br><br>
+   <a href="#"><b>All Rights Reserved</b></a>
+</p>
+
 
