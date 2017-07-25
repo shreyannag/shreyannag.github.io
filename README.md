@@ -1,6 +1,7 @@
 # **_Personal Website/Portfolio Site/Support Site_**
 
-## This site is repository of my ongoing works and projects I work on frequently [Github](https://github.com/shreyannag/)
+## This site is repository of my ongoing works and projects I work on frequently [Github](https://github.com/shreyannag/) 
+[![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)]() [![Opensource](https://img.shields.io/badge/Opensource-Yes-blue.svg)]()
 
 ## I have hosted here a custom installer of PSpice [Visit Now](https://shreyannag.github.io/download)
 
