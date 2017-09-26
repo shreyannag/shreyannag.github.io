@@ -7,6 +7,8 @@
 
 ### ![](https://www.te1.com.br/wp-content/uploads/2009/10/orcad.JPG)
 
+### Flames game ! Online Try it Now [Click to Play](https://shreyannag.github.io/flames/) [Find out more about the game](http://www.wikihow.com/Play-%22Flame%22)
+
 ## Also some DIY games like **Instruction for running java games** [Click Here](https://shreyannag.github.io/download)
 
 ### Handcricket Online [Click to Play](https://shreyannag.github.io/cricket)
