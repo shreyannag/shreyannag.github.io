@@ -45,3 +45,6 @@ function flames() {
 	}
 }
 
+function again() {
+	location.reload(true);
+}
