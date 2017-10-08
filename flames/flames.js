@@ -2,10 +2,13 @@
 
 
 function flames() {
+ var r=/\s+/g;
  var fname=document.getElementById('name1').value;
- var flen=fname.length;
+var fr=fname.replace(r,"");	
+ var flen=fr.length;
  var sname=document.getElementById('name2').value;
- var slen=sname.length
+var sr=sname.replace(r,"");	
+ var slen=sr.length
  var i,j,n,p=0;
 	for(i=0;i<flen;i++)
 	{
