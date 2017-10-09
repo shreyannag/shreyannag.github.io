@@ -49,5 +49,5 @@ var sr=sname.replace(r,"");
 }
 
 function again() {
-	location.reload();
+	location.reload(false);
 }
