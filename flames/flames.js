@@ -2,7 +2,8 @@
 
 //flames logic
 function flames() {
-  var r=/\s+/g;
+ var r=/\s+/g;
+ var d= '<button onclick=again()>Try another one !</button><br>';
  var fname=document.getElementById("name1").value;
  var fr=fname.replace(r,"");
  var flen=fr.length; console.log(flen+fr);
@@ -10,6 +11,12 @@ function flames() {
  var sr=sname.replace(r,"");
  var slen=sr.length; console.log(slen+sr);
  var i,j,n,p=0;
+    if((fr=="" || sr=="") || (fr=="" && sr==""))
+    {
+        alert("No names have been");
+    }
+    else 
+    {
 	for(i=0;i<flen;i++)
 	{
 		for(j=0;j<slen;j++)
@@ -31,27 +38,28 @@ function flames() {
 			p++;
 	}
 	}
+    }
 	switch(p%6)
 	{
-		case 1 : document.getElementById("print").innerHTML = '<p class="fr">FRIENDS</p>';
+		case 1 : document.getElementById("print").innerHTML = d+'<p class="fr">FRIENDS</p>';
 			break;
-		case 2: document.getElementById("print").innerHTML = '<p class="lo">LOVERS</p>';
+		case 2: document.getElementById("print").innerHTML = d+'<p class="lo">LOVERS</p>';
 			break;
-		case 3: document.getElementById("print").innerHTML = '<p class="af">AFFECTIONATE</p>';
+		case 3: document.getElementById("print").innerHTML = d+'<p class="af">AFFECTIONATE</p>';
 			break;
-		case 4: document.getElementById("print").innerHTML = '<p class="mr">MARRIAGE</p>';
+		case 4: document.getElementById("print").innerHTML = d+'<p class="mr">MARRIAGE</p>';
 			break;
-		case 5: document.getElementById("print").innerHTML = '<p class="em">ENEMY</p>';
+		case 5: document.getElementById("print").innerHTML = d+'<p class="em">ENEMY</p>';
 			break;
-		case 6: document.getElementById("print").innerHTML = '<p class="si">SISTER</p>'
+		case 6: document.getElementById("print").innerHTML = d+'<p class="si">SISTER</p>'
 			break;
 	}
 }
 
 //Reload function
 function again() {
-	location.reload(false);
+location.reload(false);
 }
 
 //User form layout
-document.getElementById('flames_magic').innerHTML = '<p>Your Name</p><input type="text" id="name1"><br><p>Your Crush Name</p><input type="text" id="name2"><br><button onclick=flames()>FLAMES !</button><br><button onclick=again()>Try another one !</button><br><p id="print"></p>';
+document.getElementById('flames_magic').innerHTML = '<p>Your Name</p><input type="text" id="name1"><br><p>Your Crush Name</p><input type="text" id="name2"><br><button onclick=flames()>FLAMES !</button><p id="print"></p>';
