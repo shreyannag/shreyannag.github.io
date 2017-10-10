@@ -13,7 +13,7 @@ function flames() {
  var i,j,n,p=0;
     if((fr=="" || sr=="") || (fr=="" && sr==""))
     {
-        alert("No names have been");
+        alert("No names have been entered");
     }
     else 
     {
